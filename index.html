@@ -41,7 +41,6 @@
 
     a { text-decoration: none; color: inherit; }
 
-    /* Barra Governo */
     .gov-bar {
       background-color: var(--azul-inpi-principal);
       color: #FFFFFF;
@@ -63,7 +62,6 @@
       color: rgba(255, 255, 255, 0.4);
     }
 
-    /* Cabeçalho INPI */
     .main-header {
       background-color: #FFFFFF;
       border-bottom: 2px solid var(--azul-apoio);
@@ -94,7 +92,6 @@
       color: var(--azul-inpi-medio);
     }
 
-    /* Layout da Grade */
     .container {
       max-width: 1100px;
       margin: 0 auto;
@@ -167,7 +164,6 @@
       line-height: 1.3;
     }
 
-    /* Cores das Bordas por Categoria */
     .card-marca { --card-color: var(--cat-marca); }
     .card-patente { --card-color: var(--cat-patente); }
     .card-desenho { --card-color: var(--cat-desenho); }
@@ -177,7 +173,6 @@
     .card-circuito { --card-color: var(--cat-circuito); }
     .card-transferencia { --card-color: var(--cat-transf-tec); }
 
-    /* Rodapé */
     .main-footer {
       background-color: #FFFFFF;
       border-top: 1px solid #E1E6ED;
@@ -231,25 +226,23 @@
 </head>
 <body>
 
-  <!-- Topo Governo -->
   <header class="gov-bar">
     <div class="gov-brand">
-      <img src="midia/brasil.svg" alt="Brasil" onerror="this.src='https://api.iconify.design/lucide:flag.svg'">
+      <img src="./midia/brasil.svg" alt="Brasil">
       <span>BRASIL</span>
     </div>
     <ul class="gov-links">
       <li><a href="https://www.gov.br/acessoainformacao/pt-br" target="_blank" rel="noopener">ACESSO À INFORMAÇÃO</a></li>
       <li><a href="https://www.gov.br/participamaiscidadao" target="_blank" rel="noopener">PARTICIPE</a></li>
       <li><a href="https://www.gov.br/pt-br/servicos" target="_blank" rel="noopener">SERVIÇOS</a></li>
-      <li><a href="https://www meubrasil.gov.br/legislacao" target="_blank" rel="noopener">LEGISLAÇÃO</a></li>
+      <li><a href="https://www.gov.br/pt-br/legislacao" target="_blank" rel="noopener">LEGISLAÇÃO</a></li>
       <li><a href="https://www.gov.br/inpi/pt-br/canais_atendimento" target="_blank" rel="noopener">CANAIS</a></li>
     </ul>
   </header>
 
-  <!-- Cabeçalho INPI -->
   <div class="main-header">
     <div class="inpi-brand">
-      <img src="midia/inpi-logo.svg" alt="INPI" onerror="this.src='https://api.iconify.design/lucide:building-2.svg'">
+      <img src="./midia/inpi-logo.svg" alt="INPI">
       <div class="inpi-title">
         INSTITUTO NACIONAL DA<br>PROPRIEDADE INDUSTRIAL
       </div>
@@ -263,78 +256,68 @@
     </nav>
   </div>
 
-  <!-- Cards com Links das Buscas -->
   <main class="container">
     <h1 class="page-title">CONSULTA BASE DE DADOS DO INPI</h1>
 
     <div class="grid-categories">
-      <!-- 1. Marca -->
       <a href="https://busca.inpi.gov.br/pePI/jsp/marcas/Pesquisa_num_processo.jsp" target="_blank" rel="noopener" class="card card-marca">
         <div class="card-icon-wrapper">
-          <img src="midia/marca.svg" alt="Marca" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:registered.svg'">
+          <img src="./midia/marca.svg" alt="Marca" class="card-icon">
         </div>
         <span class="card-title">MARCA</span>
       </a>
 
-      <!-- 2. Patente -->
       <a href="https://busca.inpi.gov.br/pePI/jsp/patentes/PatenteSearchBasico.jsp" target="_blank" rel="noopener" class="card card-patente">
         <div class="card-icon-wrapper">
-          <img src="midia/patente.svg" alt="Patente" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:lightbulb.svg'">
+          <img src="./midia/patente.svg" alt="Patente" class="card-icon">
         </div>
         <span class="card-title">PATENTE</span>
       </a>
 
-      <!-- 3. Desenho Industrial -->
       <a href="https://busca.inpi.gov.br/pePI/jsp/desenhos/DesenhoSearchBasico.jsp" target="_blank" rel="noopener" class="card card-desenho">
         <div class="card-icon-wrapper">
-          <img src="midia/desenho-industrial.svg" alt="Desenho Industrial" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:pencil.svg'">
+          <img src="./midia/desenho-industrial.svg" alt="Desenho Industrial" class="card-icon">
         </div>
         <span class="card-title">DESENHO INDUSTRIAL</span>
       </a>
 
-      <!-- 4. Informação Tecnológica de Patentes -->
       <a href="https://busca.inpi.gov.br/pePI/jsp/informacaotecnologica/InformacaoBancoError.jsp" target="_blank" rel="noopener" class="card card-info-tec">
         <div class="card-icon-wrapper">
-          <img src="midia/informacao-tecnologica.svg" alt="Informação Tecnológica" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:file-search.svg'">
+          <img src="./midia/informacao-tecnologica.svg" alt="Informação Tecnológica" class="card-icon">
         </div>
         <span class="card-title">INFORMAÇÃO TECNOLÓGICA DE PATENTES</span>
       </a>
 
-      <!-- 5. Indicação Geográfica -->
       <a href="https://www.gov.br/inpi/pt-br/servicos/indicacoes-geograficas/pedidos-de-indicacao-geografica-no-brasil" target="_blank" rel="noopener" class="card card-indicacao">
         <div class="card-icon-wrapper">
-          <img src="midia/indicacao-geografica.svg" alt="Indicação Geográfica" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:map-pin.svg'">
+          <img src="./midia/indicacao-geografica.svg" alt="Indicação Geográfica" class="card-icon">
         </div>
         <span class="card-title">INDICAÇÃO GEOGRÁFICA</span>
       </a>
 
-      <!-- 6. Programa de Computador -->
       <a href="https://busca.inpi.gov.br/pePI/jsp/programas/ProgramaSearchBasico.jsp" target="_blank" rel="noopener" class="card card-programa">
         <div class="card-icon-wrapper">
-          <img src="midia/programa-computador.svg" alt="Programa de Computador" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:monitor.svg'">
+          <img src="./midia/programa-computador.svg" alt="Programa de Computador" class="card-icon">
         </div>
         <span class="card-title">PROGRAMA DE COMPUTADOR</span>
       </a>
 
-      <!-- 7. Topografia de Circuito Integrado -->
       <a href="https://busca.inpi.gov.br/pePI/jsp/circuitos/CircuitosBancoError.jsp" target="_blank" rel="noopener" class="card card-circuito">
         <div class="card-icon-wrapper">
-          <img src="midia/circuito-integrado.svg" alt="Circuito Integrado" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:cpu.svg'">
+          <img src="./midia/circuito-integrado.svg" alt="Circuito Integrado" class="card-icon">
         </div>
         <span class="card-title">TOPOGRAFIA DE CIRCUITO INTEGRADO</span>
       </a>
 
-      <!-- 8. Transferência de Tecnologia -->
       <a href="https://busca.inpi.gov.br/pePI/jsp/contratos/ContratoSearchBasico.jsp" target="_blank" rel="noopener" class="card card-transferencia">
         <div class="card-icon-wrapper">
-          <img src="midia/transferencia-tecnologia.svg" alt="Transferência de Tecnologia" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:handshake.svg'">
+          <img src="./midia/transferencia-tecnologia.svg" alt="Transferência de Tecnologia" class="card-icon">
         </div>
         <span class="card-title">TRANSFERÊNCIA DE TECNOLOGIA</span>
       </a>
     </div>
   </main>
 
-  <!-- Rodapé -->
   <footer class="main-footer">
     <div class="notes-grid">
       <div class="note-item">
@@ -349,7 +332,7 @@
     <div class="footer-bottom">
       <div>RUA MAYRINK VEIGA, 9 - CENTRO - RJ - CEP: 20090-910</div>
       <a href="https://www.gov.br/inpi/pt-br/canais_atendimento" target="_blank" rel="noopener" class="fale-conosco-btn">
-        <img src="midia/fale-conosco.svg" alt="Fale Conosco" onerror="this.style.display='none'">
+        <img src="./midia/fale-conosco.svg" alt="Fale Conosco">
         <span>Fale Conosco</span>
       </a>
     </div>
