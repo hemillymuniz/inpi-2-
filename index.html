@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consulta Base de Dados - INPI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --azul-inpi-principal: #1F3972;
+      --azul-inpi-medio: #36558C;
+      --azul-inpi-claro: #6F86B3;
+      --azul-apoio: #BEC4D2;
+      --fundo-claro: #F4F6F9;
+      --texto-escuro: #2C3E50;
+      --texto-suave: #555555;
+      
+      --cat-marca: #A85F62;
+      --cat-patente: #6268A8;
+      --cat-desenho: #B59A58;
+      --cat-info-tec: #5878A0;
+      --cat-indicacao-geo: #678B73;
+      --cat-programa-comp: #596A8E;
+      --cat-circuito: #52766F;
+      --cat-transf-tec: #78658E;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Open Sans', Arial, sans-serif;
+      background-color: var(--fundo-claro);
+      color: var(--texto-escuro);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* Barra Governo */
+    .gov-bar {
+      background-color: var(--azul-inpi-principal);
+      color: #FFFFFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 40px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .gov-brand { display: flex; align-items: center; gap: 10px; }
+    .gov-brand img { height: 18px; width: auto; }
+
+    .gov-links { display: flex; gap: 20px; list-style: none; }
+    .gov-links li:not(:last-child)::after {
+      content: "|";
+      margin-left: 20px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Cabeçalho INPI */
+    .main-header {
+      background-color: #FFFFFF;
+      border-bottom: 2px solid var(--azul-apoio);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .inpi-brand { display: flex; align-items: center; gap: 15px; }
+    .inpi-brand img { height: 45px; }
+
+    .inpi-title {
+      border-left: 2px solid var(--azul-inpi-claro);
+      padding-left: 12px;
+      color: var(--azul-inpi-principal);
+      font-weight: 700;
+      font-size: 0.85rem;
+      line-height: 1.2;
+    }
+
+    .user-nav {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--azul-inpi-medio);
+    }
+
+    /* Layout da Grade */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      flex: 1;
+    }
+
+    .page-title {
+      text-align: center;
+      color: var(--azul-inpi-principal);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 35px;
+    }
+
+    .grid-categories {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: #FFFFFF;
+      border-radius: 8px;
+      padding: 25px 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border: 1px solid #E1E6ED;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background-color: var(--card-color, var(--azul-inpi-principal));
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    .card-icon-wrapper {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      background-color: var(--fundo-claro);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .card-icon {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+    }
+
+    .card-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--texto-escuro);
+      line-height: 1.3;
+    }
+
+    /* Cores das Bordas por Categoria */
+    .card-marca { --card-color: var(--cat-marca); }
+    .card-patente { --card-color: var(--cat-patente); }
+    .card-desenho { --card-color: var(--cat-desenho); }
+    .card-info-tec { --card-color: var(--cat-info-tec); }
+    .card-indicacao { --card-color: var(--cat-indicacao-geo); }
+    .card-programa { --card-color: var(--cat-programa-comp); }
+    .card-circuito { --card-color: var(--cat-circuito); }
+    .card-transferencia { --card-color: var(--cat-transf-tec); }
+
+    /* Rodapé */
+    .main-footer {
+      background-color: #FFFFFF;
+      border-top: 1px solid #E1E6ED;
+      padding: 30px 40px 20px;
+      margin-top: 40px;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      font-size: 0.75rem;
+      line-height: 1.5;
+      color: var(--texto-suave);
+      margin-bottom: 20px;
+    }
+
+    .note-item {
+      border-left: 3px solid var(--azul-inpi-claro);
+      padding-left: 10px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #EFEFEF;
+      padding-top: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--azul-inpi-principal);
+    }
+
+    .fale-conosco-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--azul-inpi-principal);
+      color: #FFFFFF;
+      padding: 8px 16px;
+      border-radius: 4px;
+    }
+
+    .fale-conosco-btn img { height: 16px; filter: brightness(0) invert(1); }
+
+    @media (max-width: 800px) {
+      .grid-categories { grid-template-columns: repeat(2, 1fr); }
+      .notes-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Topo Governo -->
+  <header class="gov-bar">
+    <div class="gov-brand">
+      <img src="midia/brasil.svg" alt="Brasil" onerror="this.src='https://api.iconify.design/lucide:flag.svg'">
+      <span>BRASIL</span>
+    </div>
+    <ul class="gov-links">
+      <li><a href="https://www.gov.br/acessoainformacao/pt-br" target="_blank" rel="noopener">ACESSO À INFORMAÇÃO</a></li>
+      <li><a href="https://www.gov.br/participamaiscidadao" target="_blank" rel="noopener">PARTICIPE</a></li>
+      <li><a href="https://www.gov.br/pt-br/servicos" target="_blank" rel="noopener">SERVIÇOS</a></li>
+      <li><a href="https://www meubrasil.gov.br/legislacao" target="_blank" rel="noopener">LEGISLAÇÃO</a></li>
+      <li><a href="https://www.gov.br/inpi/pt-br/canais_atendimento" target="_blank" rel="noopener">CANAIS</a></li>
+    </ul>
+  </header>
+
+  <!-- Cabeçalho INPI -->
+  <div class="main-header">
+    <div class="inpi-brand">
+      <img src="midia/inpi-logo.svg" alt="INPI" onerror="this.src='https://api.iconify.design/lucide:building-2.svg'">
+      <div class="inpi-title">
+        INSTITUTO NACIONAL DA<br>PROPRIEDADE INDUSTRIAL
+      </div>
+    </div>
+    <nav class="user-nav">
+      <a href="https://www.gov.br/inpi/pt-br/canais_atendimento/ajuda" target="_blank" rel="noopener">AJUDA?</a>
+      <span>|</span>
+      <a href="https://busca.inpi.gov.br/pePI/servlet/LoginController" target="_blank" rel="noopener">LOGIN</a>
+      <span>|</span>
+      <a href="https://busca.inpi.gov.br/pePI/servlet/CadastreSeController" target="_blank" rel="noopener">CADASTRE-SE AQUI</a>
+    </nav>
+  </div>
+
+  <!-- Cards com Links das Buscas -->
+  <main class="container">
+    <h1 class="page-title">CONSULTA BASE DE DADOS DO INPI</h1>
+
+    <div class="grid-categories">
+      <!-- 1. Marca -->
+      <a href="https://busca.inpi.gov.br/pePI/jsp/marcas/Pesquisa_num_processo.jsp" target="_blank" rel="noopener" class="card card-marca">
+        <div class="card-icon-wrapper">
+          <img src="midia/marca.svg" alt="Marca" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:registered.svg'">
+        </div>
+        <span class="card-title">MARCA</span>
+      </a>
+
+      <!-- 2. Patente -->
+      <a href="https://busca.inpi.gov.br/pePI/jsp/patentes/PatenteSearchBasico.jsp" target="_blank" rel="noopener" class="card card-patente">
+        <div class="card-icon-wrapper">
+          <img src="midia/patente.svg" alt="Patente" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:lightbulb.svg'">
+        </div>
+        <span class="card-title">PATENTE</span>
+      </a>
+
+      <!-- 3. Desenho Industrial -->
+      <a href="https://busca.inpi.gov.br/pePI/jsp/desenhos/DesenhoSearchBasico.jsp" target="_blank" rel="noopener" class="card card-desenho">
+        <div class="card-icon-wrapper">
+          <img src="midia/desenho-industrial.svg" alt="Desenho Industrial" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:pencil.svg'">
+        </div>
+        <span class="card-title">DESENHO INDUSTRIAL</span>
+      </a>
+
+      <!-- 4. Informação Tecnológica de Patentes -->
+      <a href="https://busca.inpi.gov.br/pePI/jsp/informacaotecnologica/InformacaoBancoError.jsp" target="_blank" rel="noopener" class="card card-info-tec">
+        <div class="card-icon-wrapper">
+          <img src="midia/informacao-tecnologica.svg" alt="Informação Tecnológica" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:file-search.svg'">
+        </div>
+        <span class="card-title">INFORMAÇÃO TECNOLÓGICA DE PATENTES</span>
+      </a>
+
+      <!-- 5. Indicação Geográfica -->
+      <a href="https://www.gov.br/inpi/pt-br/servicos/indicacoes-geograficas/pedidos-de-indicacao-geografica-no-brasil" target="_blank" rel="noopener" class="card card-indicacao">
+        <div class="card-icon-wrapper">
+          <img src="midia/indicacao-geografica.svg" alt="Indicação Geográfica" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:map-pin.svg'">
+        </div>
+        <span class="card-title">INDICAÇÃO GEOGRÁFICA</span>
+      </a>
+
+      <!-- 6. Programa de Computador -->
+      <a href="https://busca.inpi.gov.br/pePI/jsp/programas/ProgramaSearchBasico.jsp" target="_blank" rel="noopener" class="card card-programa">
+        <div class="card-icon-wrapper">
+          <img src="midia/programa-computador.svg" alt="Programa de Computador" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:monitor.svg'">
+        </div>
+        <span class="card-title">PROGRAMA DE COMPUTADOR</span>
+      </a>
+
+      <!-- 7. Topografia de Circuito Integrado -->
+      <a href="https://busca.inpi.gov.br/pePI/jsp/circuitos/CircuitosBancoError.jsp" target="_blank" rel="noopener" class="card card-circuito">
+        <div class="card-icon-wrapper">
+          <img src="midia/circuito-integrado.svg" alt="Circuito Integrado" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:cpu.svg'">
+        </div>
+        <span class="card-title">TOPOGRAFIA DE CIRCUITO INTEGRADO</span>
+      </a>
+
+      <!-- 8. Transferência de Tecnologia -->
+      <a href="https://busca.inpi.gov.br/pePI/jsp/contratos/ContratoSearchBasico.jsp" target="_blank" rel="noopener" class="card card-transferencia">
+        <div class="card-icon-wrapper">
+          <img src="midia/transferencia-tecnologia.svg" alt="Transferência de Tecnologia" class="card-icon" onerror="this.src='https://api.iconify.design/lucide:handshake.svg'">
+        </div>
+        <span class="card-title">TRANSFERÊNCIA DE TECNOLOGIA</span>
+      </a>
+    </div>
+  </main>
+
+  <!-- Rodapé -->
+  <footer class="main-footer">
+    <div class="notes-grid">
+      <div class="note-item">
+        <strong>NOTA:</strong><br>
+        PARA EFEITOS LEGAIS A REVISTA ELETRÔNICA DA PROPRIEDADE INDUSTRIAL (RPI) É O ÚNICO CANAL DESTINADO A PUBLICAR OS ATOS, DESPACHOS E DECISÕES RELACIONADOS ÀS ATIVIDADES DA AUTARQUIA.
+      </div>
+      <div class="note-item">
+        O ACERVO CONTIDO NA BASE DE DADOS ESTÁ RESTRITO A DOCUMENTOS PUBLICADOS A PARTIR DO ANO 2000, E A PARTIR DE OUTUBRO DE 2009 PARA CONTRATOS DE TECNOLOGIA, CUJOS DADOS FORAM PUBLICADOS OFICIALMENTE NA REVISTA DA PROPRIEDADE INDUSTRIAL.
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>RUA MAYRINK VEIGA, 9 - CENTRO - RJ - CEP: 20090-910</div>
+      <a href="https://www.gov.br/inpi/pt-br/canais_atendimento" target="_blank" rel="noopener" class="fale-conosco-btn">
+        <img src="midia/fale-conosco.svg" alt="Fale Conosco" onerror="this.style.display='none'">
+        <span>Fale Conosco</span>
+      </a>
+    </div>
+  </footer>
+
+</body>
+</html>
